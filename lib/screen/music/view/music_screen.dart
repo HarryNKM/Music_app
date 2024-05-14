@@ -1,16 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:music_app/provider/music_provider.dart';
+import 'package:provider/provider.dart';
 
 class MusicScreen extends StatefulWidget {
   const MusicScreen({super.key});
-
   @override
   State<MusicScreen> createState() => _MusicScreenState();
 }
 
 class _MusicScreenState extends State<MusicScreen> {
+  MusicProvider? providerR;
+  MusicProvider? providerW;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<MusicProvider>().changemusic();
+  }
   @override
   Widget build(BuildContext context) {
+    providerR=context.read<MusicProvider>();
+    providerW=context.watch<MusicProvider>();
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
@@ -64,14 +75,25 @@ class _MusicScreenState extends State<MusicScreen> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.play_arrow,
+                onPressed: () {
+                if(providerW!.isPlay==false)
+                  {
+                    providerR!.audioplayer.play();
+                  }
+                else
+                  {
+                    providerR!.audioplayer.pause();
+                  }
+                },
+                icon:  Icon(
+                  providerW!.isPlay?Icons.pause:Icons.play_arrow,
                   size: 40,
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  providerR!.audioplayer.pause();
+                },
                 icon: const Icon(
                   Icons.skip_next_outlined,
                   size: 40,
