@@ -68,31 +68,28 @@ class _MusicScreenState extends State<MusicScreen> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  providerW!.audioplayer.previous();
+
+                },
                 icon: const Icon(
                   Icons.skip_previous_outlined,
                   size: 40,
                 ),
               ),
               IconButton(
-                onPressed: () {
-                if(providerW!.isPlay==false)
-                  {
-                    providerR!.audioplayer.play();
-                  }
-                else
-                  {
-                    providerR!.audioplayer.pause();
-                  }
+                onPressed: () async{
+              await providerR!.audioplayer.playOrPause();
+              providerR!.playpause();
                 },
                 icon:  Icon(
-                  providerW!.isPlay?Icons.pause:Icons.play_arrow,
+                  providerW!.isPlay?Icons.play_arrow:Icons.pause,
                   size: 40,
                 ),
               ),
               IconButton(
                 onPressed: () {
-                  providerR!.audioplayer.pause();
+                    providerW!.audioplayer.next();
                 },
                 icon: const Icon(
                   Icons.skip_next_outlined,
@@ -114,7 +111,7 @@ class _MusicScreenState extends State<MusicScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("00:00"),
+                 Text("${providerW!.h}:${providerW!.m}:${providerW!.s}"),
                 SizedBox(
                   width: 310,
                   child: Slider(
